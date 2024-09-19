@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.Date;
 
 //@Component // This tells Spring to manage this class
@@ -21,15 +23,21 @@ public class Product {
     private String brand;
     private BigDecimal price;
     private String category;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private Date releaseDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate releaseDate;
     private boolean available;
     private int quantity;
 
+    private String imageName;
+    private String imageType;
+
+    @Lob // Large Object - for storing large data
+    private byte[] imageData;
     public Product() {
     }
 
-    public Product(int productId, String name, String description, String brand, BigDecimal price, String category, Date releaseDate, boolean available, int quantity) {
+    public Product(int productId, String name, String description, String brand, BigDecimal price, String category, LocalDate releaseDate, boolean available, int quantity, String imageName, String imageType, byte[] imageData) {
         this.productId = productId;
         this.name = name;
         this.description = description;
@@ -39,6 +47,27 @@ public class Product {
         this.releaseDate = releaseDate;
         this.available = available;
         this.quantity = quantity;
+        this.imageName = imageName;
+        this.imageType = imageType;
+        this.imageData = imageData;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "productId=" + productId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", brand='" + brand + '\'' +
+                ", price=" + price +
+                ", category='" + category + '\'' +
+                ", releaseDate=" + releaseDate +
+                ", available=" + available +
+                ", quantity=" + quantity +
+                ", imageName='" + imageName + '\'' +
+                ", imageType='" + imageType + '\'' +
+                ", imageData=" + Arrays.toString(imageData) +
+                '}';
     }
 
     public int getProductId() {
@@ -89,11 +118,11 @@ public class Product {
         this.category = category;
     }
 
-    public Date getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -111,5 +140,29 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getImageType() {
+        return imageType;
+    }
+
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 }
